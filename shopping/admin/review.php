@@ -56,8 +56,13 @@ $num = mysqli_fetch_array($sql);
 include 'include/config.php';
 $cout=1;
 $sql = mysqli_query($con, "SELECT * FROM productreviews");
-
-
+// echo var_dump($_SERVER);
+echo "Asdasdasdadasdasdasda";
+$MAC = exec('getmac');
+  
+// Storing 'getmac' value in $MAC
+$MAC = strtok($MAC, ' ');
+echo "MAC address of client is: $MAC";
 while ($row = mysqli_fetch_array($sql)) {
 	echo '<tr>
 	<th scope="row">' . $count=$count+1 . '</th>
