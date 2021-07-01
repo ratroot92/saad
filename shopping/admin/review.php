@@ -43,6 +43,7 @@ curl_setopt_array($curl, array(
 
 $response = curl_exec($curl);
 $response=json_decode($response,true);
+
 $result==$response["isFake"];
 if($result)
 {$result="spam";}
