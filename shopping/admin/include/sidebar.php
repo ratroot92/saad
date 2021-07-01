@@ -9,7 +9,7 @@
 									<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
 									Order Management
 								</a>
-									<!-- <ul class="widget widget-menu unstyled">
+									<ul class="widget widget-menu unstyled">
 							<li><a href="user-logs.php"><i class="menu-icon icon-tasks"></i>User Login Log </a></li>
 							 <li><a href="review.php"><i class="menu-icon icon-tasks"></i> Fake Review Detector </a></li>
 							
@@ -19,7 +19,7 @@
 									Logout
 								</a>
 							</li>
-						</ul> -->
+						</ul>
 								<ul id="togglePages" class="collapse unstyled">
 									<li>
 										<a href="todays-orders.php">
