@@ -42,14 +42,18 @@ if(isset($_POST['submit']))
 	$review=$_POST['review'];
 	$user_unique_id=$_SERVER['UNIQUE_ID'];
 	$user_server_name=$_SERVER['SERVER_NAME'];
-	$user_server_addr=$_SERVER['SERVER_ADDR'];
+	$MAC = exec('getmac');
+  
+// Storing 'getmac' value in $MAC
+$MAC = strtok($MAC, ' ');
+	$user_server_addr=$MAC;
 	$user_server_software=$_SERVER['SERVER_SOFTWARE'];
 	$user_http_agent=$_SERVER['HTTP_USER_AGENT'];
-	$result =mysqli_query($con,"insert into productreviews(productId,quality,price,value,name,summary,review,
-	SERVER_NAME,SERVER_ADDR,SERVER_SOFTWARE,HTTP_USER_AGENT,UNIQUE_ID) values('$pid','$qty','$price','$value','$name','$summary','$review','$user_server_name,'$user_server_addr,'$user_server_software,'$user_http_agent,'$user_unique_id')");
-	echo "asd";
-	echo $result;
+	mysqli_query($con,"insert into productreviews(productId,quality,price,value,name,summary,review,
+	SERVER_NAME,SERVER_ADDR,SERVER_SOFTWARE,HTTP_USER_AGENT,UNIQUE_ID) values('$pid','$qty','$price','$value','$name','$summary','$review','$user_server_name','$user_server_addr','$user_server_software','$user_http_agent','$user_unique_id')");
+
 }
+
 
 
 ?>
