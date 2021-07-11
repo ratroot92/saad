@@ -43,9 +43,7 @@ if(isset($_POST['submit']))
 	$user_unique_id=$_SERVER['UNIQUE_ID'];
 	$user_server_name=$_SERVER['SERVER_NAME'];
 	$MAC = exec('getmac');
-  
-// Storing 'getmac' value in $MAC
-$MAC = strtok($MAC, ' ');
+	$MAC = strtok($MAC, ' ');
 	$user_server_addr=$MAC;
 	$user_server_software=$_SERVER['SERVER_SOFTWARE'];
 	$user_http_agent=$_SERVER['HTTP_USER_AGENT'];

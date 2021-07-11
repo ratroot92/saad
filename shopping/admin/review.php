@@ -19,9 +19,28 @@ if(isset($_POST['btn-delete'])){
 <?php
 if(isset($_POST['btn-analyze'])){
 $reviewId=$_POST['analyze-id'];	
-$curl = curl_init();
+$sql = mysqli_query($con, "SELECT *  FROM productreviews WHERE productreviews.id=$reviewId LIMIT 1");
+$payload = array(
+    "UNIQUE_ID" => "",
+    "SERVER_NAME" => "",
+	"SERVER_ADDR" => "",
+	"SERVER_SOFTWARE" => "",
+	"HTTP_USER_AGENT" => "",
+	"review" =>'',
+);
+
+while($row=mysqli_fetch_array($sql))
+{
+	$payload["UNIQUE_ID"]=$row["UNIQUE_ID"];
+	$payload["SERVER_NAME"]=$row["SERVER_NAME"];
+	$payload["SERVER_ADDR"]=$row["SERVER_ADDR"];
+	$payload["SERVER_SOFTWARE"]=$row["SERVER_SOFTWARE"];
+	$payload["HTTP_USER_AGENT"]=$row["HTTP_USER_AGENT"];
+	$payload["review"]=$row["review"];
+	$curl = curl_init();
+
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'http://54.151.174.78:3000/ajax',
+  CURLOPT_URL => 'http://54.151.174.78:3003/ajax',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
@@ -29,29 +48,33 @@ curl_setopt_array($curl, array(
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>'{
-    "MAC":"98-40-BB-3D-74-2F",
-    "IP":"192.168.13.94",
-    "reviewText":"BEST PRODUCT FOR ME :)",
-    "sessionTime":"2017-02-26 20:43:57",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36"
-}',
+  CURLOPT_POSTFIELDS => 'UNIQUE_ID='.$row["UNIQUE_ID"].'&SERVER_NAME='.$row["SERVER_NAME"].'&SERVER_ADDR='.$row["SERVER_ADDR"].'&SERVER_SOFTWARE='.$row["SERVER_SOFTWARE"].'&HTTP_USER_AGENT='.$row["HTTP_USER_AGENT"].'&review='.$row["review"].'',
   CURLOPT_HTTPHEADER => array(
-    'Content-Type: application/json'
+    'Content-Type: application/x-www-form-urlencoded'
   ),
 ));
-
+// CURLOPT_POSTFIELDS => 'UNIQUE_ID='.$row["UNIQUE_ID"].'&SERVER_NAME='.$row["SERVER_NAME"].'&SERVER_ADDR='.$row["SERVER_ADDR"].'&SERVER_SOFTWARE='.$row["SERVER_SOFTWARE"].'&HTTP_USER_AGENT='.$row["HTTP_USER_AGENT"].'&review='.$row["review"].'',
 $response = curl_exec($curl);
 $response=json_decode($response,true);
-
-$result==$response["isFake"];
-if($result)
-{$result="spam";}
+$result=$response["isFake"];
+if($result===1)
+{
+	$result="spam";}
 else
-{$result="real";}
+{
+
+	$result="real";
+}
 $sqlQuery='UPDATE productreviews SET productreviews.result="'.$result.'" WHERE id='.$reviewId;
 $sql=mysqli_query($con,$sqlQuery);	
 curl_close($curl);
+// header("location:javascript://history.go(-1)");
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+exit;
+
+
+}
+
 
 }
 
@@ -126,7 +149,7 @@ while ($row = mysqli_fetch_array($sql)) {
 	<input type="hidden" name="review-id"  value="'.$row[0].'" />
 	<input type="submit" name="btn-delete" value="Delete" class="btn btn-sm btn-danger" />
 	</form>
-	<form method="post" >
+	<form method="post" action="" >
 	<input type="hidden" name="analyze-id"  value="'.$row[0].'" />
 	<input type="submit" name="btn-analyze" value="Analyze" class="btn btn-sm btn-danger" />
 	</form>
