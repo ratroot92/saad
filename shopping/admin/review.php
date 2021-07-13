@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 include 'include/config.php';
 $sql = mysqli_query($con, "SELECT * FROM productreviews");
 $num = mysqli_fetch_array($sql);
@@ -31,6 +32,8 @@ $payload = array(
 
 while($row=mysqli_fetch_array($sql))
 {
+	$reviewerName=$row["name"];
+	$result="";
 	$payload["UNIQUE_ID"]=$row["UNIQUE_ID"];
 	$payload["SERVER_NAME"]=$row["SERVER_NAME"];
 	$payload["SERVER_ADDR"]=$row["SERVER_ADDR"];
@@ -59,14 +62,30 @@ $response=json_decode($response,true);
 $result=$response["isFake"];
 if($result===1)
 {
-	$result="spam";}
+	$result="spam";
+	$sqlQuery='UPDATE productreviews SET productreviews.result="'.$result.'" WHERE id='.$_POST['analyze-id'];
+	$sql=mysqli_query($con, $sqlQuery);
+}
 else
 {
+    $findUser='SELECT COUNT(*) as count FROM users WHERE users.name LIKE "%'.$reviewerName.'%"';
+    $rowCount=mysqli_query($con, $findUser);
 
-	$result="real";
+
+    while ($row=mysqli_fetch_array($rowCount)) {
+		
+        if ($row["count"]=='0') {
+            $result="spam - did not order";
+			$sqlQuery='UPDATE productreviews SET productreviews.result="spam - did not order" WHERE id='.$_POST['analyze-id'];
+			$sql=mysqli_query($con, $sqlQuery);
+        } else {
+            $result="real";
+			$sqlQuery='UPDATE productreviews SET productreviews.result="'.$result.'" WHERE id='.$_POST['analyze-id'];
+			$sql=mysqli_query($con, $sqlQuery);
+        }
+    }
+    
 }
-$sqlQuery='UPDATE productreviews SET productreviews.result="'.$result.'" WHERE id='.$reviewId;
-$sql=mysqli_query($con,$sqlQuery);	
 curl_close($curl);
 // header("location:javascript://history.go(-1)");
 header('Location: ' . $_SERVER['HTTP_REFERER']);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 30, 2021 at 11:58 PM
+-- Generation Time: Jul 13, 2021 at 08:28 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -104,18 +104,19 @@ CREATE TABLE `ordertrackhistory` (
   `orderId` int(11) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `remark` mediumtext DEFAULT NULL,
-  `postingDate` timestamp NOT NULL DEFAULT current_timestamp()
+  `postingDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `result` varchar(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ordertrackhistory`
 --
 
-INSERT INTO `ordertrackhistory` (`id`, `orderId`, `status`, `remark`, `postingDate`) VALUES
-(1, 3, 'in Process', 'Order has been Shipped.', '2017-03-10 19:36:45'),
-(2, 1, 'Delivered', 'Order Has been delivered', '2017-03-10 19:37:31'),
-(3, 3, 'Delivered', 'Product delivered successfully', '2017-03-10 19:43:04'),
-(4, 4, 'in Process', 'Product ready for Shipping', '2017-03-10 19:50:36');
+INSERT INTO `ordertrackhistory` (`id`, `orderId`, `status`, `remark`, `postingDate`, `result`) VALUES
+(1, 3, 'in Process', 'Order has been Shipped.', '2017-03-10 19:36:45', NULL),
+(2, 1, 'Delivered', 'Order Has been delivered', '2017-03-10 19:37:31', NULL),
+(3, 3, 'Delivered', 'Product delivered successfully', '2017-03-10 19:43:04', NULL),
+(4, 4, 'in Process', 'Product ready for Shipping', '2017-03-10 19:50:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -137,17 +138,27 @@ CREATE TABLE `productreviews` (
   `name` varchar(255) DEFAULT NULL,
   `summary` varchar(255) DEFAULT NULL,
   `review` longtext DEFAULT NULL,
-  `reviewDate` timestamp NOT NULL DEFAULT current_timestamp()
+  `reviewDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `result` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `productreviews`
 --
 
-INSERT INTO `productreviews` (`id`, `UNIQUE_ID`, `SERVER_NAME`, `SERVER_ADDR`, `SERVER_SOFTWARE`, `HTTP_USER_AGENT`, `productId`, `quality`, `price`, `value`, `name`, `summary`, `review`, `reviewDate`) VALUES
-(2, NULL, NULL, NULL, NULL, NULL, 3, 4, 5, 5, 'Anuj Kumar', 'BEST PRODUCT FOR ME :)', 'BEST PRODUCT FOR ME :)', '2017-02-26 20:43:57'),
-(3, NULL, NULL, NULL, NULL, NULL, 3, 3, 4, 3, 'Sarita pandey', 'Nice Product', 'Value for money', '2017-02-26 20:52:46'),
-(4, NULL, NULL, NULL, NULL, NULL, 3, 3, 4, 3, 'Sarita pandey', 'Nice Product', 'Value for money', '2017-02-26 20:59:19');
+INSERT INTO `productreviews` (`id`, `UNIQUE_ID`, `SERVER_NAME`, `SERVER_ADDR`, `SERVER_SOFTWARE`, `HTTP_USER_AGENT`, `productId`, `quality`, `price`, `value`, `name`, `summary`, `review`, `reviewDate`, `result`) VALUES
+(11, '', 'localhost', '98-40-BB-3D-74-2F', 'Apache/2.4.41 (Win64) OpenSSL/1.1.1c PHP/7.3.12', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 19, 5, 4, 3, 'Zain Alvi', 'i like the product. but i want some extra bounas', 'I like the product. But i want some extra bonus.', '2021-07-01 07:43:22', 'spam'),
+(12, '', 'localhost', '98-40-BB-3D-74-2F', 'Apache/2.4.41 (Win64) OpenSSL/1.1.1c PHP/7.3.12', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 5, 1, 1, 1, 'Zain Alvi', 'product is bad.', 'product is bad.', '2021-07-01 07:50:44', 'NULL'),
+(13, '', 'localhost', '98-40-BB-3D-74-2F', 'Apache/2.4.41 (Win64) OpenSSL/1.1.1c PHP/7.3.12', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 8, 5, 3, 5, 'Zain Alvi', 'Aww i love this product too much', 'Aww i love this product too much', '2021-07-01 07:52:24', 'NULL'),
+(14, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 16, 5, 5, 5, 'Ali Ejaz', 'Amazing Book.', 'Amazing Book.', '2021-07-01 08:07:58', 'spam - did not order'),
+(15, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 3, 5, 5, 5, 'Ali Ejaz', 'Phone is good according to my expectation. but there is one problem i need some bonus on that product.', 'Phone is good according to my expectation. but there is one problem i need some bonus on that product.', '2021-07-01 08:09:59', 'spam'),
+(16, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 2, 5, 3, 5, 'Ali Ejaz', 'very beautiful phone amazing experience', 'very beautiful phone amazing experience', '2021-07-01 08:11:22', 'spam - did not order'),
+(17, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 9, 5, 5, 5, 'Anuj Kumar', 'lovely phone. need some cash back as a bonus.', 'lovely phone. need some cash back as a bonus.', '2021-07-01 08:15:40', 'spam'),
+(18, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 14, 5, 5, 5, 'Saqlain Mushtaq', 'Laptop build quailty is really awesome.', 'Laptop build quailty is really awesome.', '2021-07-01 08:17:04', 'spam - did not order'),
+(19, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 12, 5, 4, 5, 'Saqlain Mushtaq', 'laptop has great features in this price. enjoying it.', 'laptop has great features in this price. enjoying it.', '2021-07-01 08:18:11', 'spam - did not order'),
+(20, '', 'localhost', '40-9F-38-21-CB-A9', 'Apache/2.4.47 (Win64) OpenSSL/1.1.1k PHP/7.3.28', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 12, 5, 4, 5, 'Saqlain Mushtaq', 'laptop has great features in this price. enjoying it.', 'laptop has great features in this price. enjoying it.', '2021-07-01 08:18:11', 'NULL'),
+(21, '', 'localhost', '98-40-BB-3D-74-2F', 'Apache/2.4.41 (Win64) OpenSSL/1.1.1c PHP/7.3.12', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 8, 5, 3, 5, 'Zain Alvi', 'Aww i love this product too much', 'Aww i love this product too much', '2021-07-01 11:23:54', 'NULL'),
+(22, '', 'localhost', '98-40-BB-3D-74-2F', 'Apache/2.4.41 (Win64) OpenSSL/1.1.1c PHP/7.3.12', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.70 Safari/537.36', 8, 5, 3, 5, 'Zain Alvi', 'Aww i love this product too much', 'Aww i love this product too much', '2021-07-01 12:07:41', 'NULL');
 
 -- --------------------------------------------------------
 
@@ -422,7 +433,7 @@ ALTER TABLE `ordertrackhistory`
 -- AUTO_INCREMENT for table `productreviews`
 --
 ALTER TABLE `productreviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `products`
